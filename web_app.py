@@ -67,8 +67,8 @@ def home():
 @app.route('/trending', methods=['GET'])
 def form():
 	
-	data = "akhil,kishore"
-	#data = {"name":"akhil"}
+	data = "sukesh,shenoy"
+	#data = {"name":"ss"}
 	#return flask.render_template('home.html', trends= webapp.trends)
 	return jsonify(data)
 
