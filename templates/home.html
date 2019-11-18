@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<title>twitterWebAppSample</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+html, body {
+  height: 100%;
+  margin: 10px;
+}
+* {
+  box-sizing: border-box;
+} 
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+header {
+  width:100%;
+  height:100%;
+  background-color:#1DA1F2;;
+  text-align:left;
+  color: white;
+  font-size:25px;
+}
+
+
+article {
+  float:left;
+  width: 70%;
+  height:100%;
+  text-align:center;
+  font-size: 20px;
+  color:black; 
+  
+}
+
+aside {
+  float: right;
+  padding: 25px;
+  height:100%;
+  width:30%;
+  background-color:#9418F2;
+  font-size:18px;
+  color:White;
+  }
+
+
+div:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+footer {
+width:100%;
+padding: 10px;
+text-align: right;
+font-size:10px;
+background-color:#83AFF2;
+}
+
+</style>
+</head>
+<body>
+
+<div style="height:15%">
+<header>
+<h1>
+  Twitter Search
+  </h1>
+</header>
+
+</div>
+
+<div style="height:75%">
+
+<article >
+
+	 <input id='textArea' type="text" name="q">
+    <br>
+     <button style="align:left" id ='view'  type="submit" name="action" value="view">View</button>
+     <button style="centre" type="submit" name="action" value="wordcloud">WordCLoud</button>
+     <button style="align:right"  type="submit" name="action" value="charts">Charts</button>
+
+    </article>
+ 
+
+<aside>
+<h5>
+  # global trends
+</h5>
+  {% for i in trends %}
+ <p>
+    {{trends['name']}}
+  </p>
+   <p>
+    {{trends['tweet_volume']}}
+  </p>
+ {% endfor %}
+</aside>
+
+</div>
+
+<div style="height:10%">
+<footer>
+<p>
+  created by ss
+  </p>
+</footer>
+</div>
+
+</body>
+
+<script>
+
+    function trending(){
+
+            var request = new XMLHttpRequest()
+            request.open('GET', '/trending', true)
+            request.onload = function () {
+
+                var data = JSON.parse(this.response);
+                if(data == "404"){
+			alert('failed');
+                }
+                else{
+                    //appendTrending(data);
+			alert(data);
+
+                }
+            }
+            request.send()
+    }
+    trending()
+
+
+    $('#view').click(function(){
+        var query = $('#textArea').val();
+        search_query = {data:query}; 
+	alert(search_query);
+        search_query = JSON.stringify(search_query);
+
+        var request = new XMLHttpRequest()
+        request.open('POST', '/view', true)
+        request.onload = function () {
+
+            var data = JSON.parse(this.response);
+            if(data == "404"){
+                alert("No Data Found ! Try Different Keywords");
+            }
+            else{
+             	alert('done');
+            }
+        }
+        request.send(search_query)
+    });
+
+
+
+
+</script>
+</html>
+
