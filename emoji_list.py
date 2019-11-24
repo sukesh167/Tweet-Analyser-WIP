@@ -2814,7 +2814,10 @@ class emojis():
       u':regional_indicator_symbol_letter_y:': u'\U0001F1FE',
       u':regional_indicator_symbol_letter_z:': u'\U0001F1FF',
     }
-    self.emojis_sub={}
+
+    self.emojis_sub_word={}
+    self.emojis_sub_sentence={}
     for key,val in self.emojis_tmp.items():
-      self.emojis_sub[val]=" ".join(re.split(r'[_:"\\\']',key[0:]))
+      self.emojis_sub_sentence[val]=re.sub(":","."," ".join(re.split(r'[_"\\\']',key[0:])))
+      self.emojis_sub_word[val]=" "
 
