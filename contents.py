@@ -21,10 +21,10 @@ class content():
 		self.clean_tweets=None
 		self.tweets=[]
 		
-		ACCESS_TOKEN = '1192350351078371329-L4MshX1GA8FicYhe8PDMmDaTUS9ayK'
-		ACCESS_TOKEN_SECRET = '9H5VgkrTGnle6CsPpyfptgGONj0UuJK9rGrg5RZtduWLR'
-		CONSUMER_KEY = 'dDHYwqdav0HFo96VJlqb92CPH'
-		CONSUMER_SECRET = 'UDt6MwCZiGCfQwkYeD4d7GzOIEXZuOkF9HYA8APmVa9rFhd8wP'
+		ACCESS_TOKEN = 'enter access token'
+		ACCESS_TOKEN_SECRET = 'enter access token secret'
+		CONSUMER_KEY = 'enter consumer key'
+		CONSUMER_SECRET = 'enter consumer secret'
 		
 		auth = OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
 		auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
