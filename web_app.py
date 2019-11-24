@@ -1,89 +1,68 @@
-# -*- coding: utf-8 -*-
-from cleaner import cleaning
-from tweepy import OAuthHandler, API, Cursor
-from pycorenlp import StanfordCoreNLP
 import flask
 from flask import jsonify,request
 import json
+from processor import content
 
-class get_tweets():
-	def __init__(self,tweet):
-		self.tweets=tweet
-		self.created_at=tweet.created_at
-		self.user_name=tweet.user.name
-		self.full_text=tweet.full_text
-		self.words=None
-		self.clean_text=None
-		self.retweet_count=tweet.retweet_count.real
-		self.verified_user=tweet.user.verified
-		self.sentiment=None
-		self.sentiment_value=None
-
-
-class web_app():
-	def __init__(self,):
-		self.clean_tweets=None
-		ACCESS_TOKEN = 'ENTER ACCESS TOKEN'
-		ACCESS_TOKEN_SECRET = 'ENTER ACCESS TOKEN SECRET'
-		CONSUMER_KEY = 'ENTER CONSUMER KEY'
-		CONSUMER_SECRET = 'ENTER CONSUMER SECRET'
-		self.tweets=None
-		auth = OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
-		auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
-		self.api = API(auth, wait_on_rate_limit=True)
-		self.query = q
-		self.trends=self.api.trends_place(1)[0]['trends'][:5]	
-
-	def tweet_search(self):
-		for tweet in Cursor(self.api.search, q=str(self.query), lang="en", tweet_mode="extended").items():
-			self.tweets.append(get_tweets(tweet))
-		
-	def tweet_clean(self):
-		self.clean_tweets=cleaning(self.tweets).clean_tweets
-
-	def sentiment_analysis(self):
-		nlp = StanfordCoreNLP('http://localhost:9000')
-		for text in self.clean_tweets:
-			result = nlp.annotate(text.clean_text,
-					properties={
-					'annotators': 'sentiment',
-					'outputFormat': 'json',
-					'timeout' : 75000})
-			
-			for s in result["sentences"]:
-				text.sentiment=s["sentiment"]
-				text.sentiment_value=s["sentimentValue"]
-	
-
-
-
-import datetime
 app = flask.Flask(__name__)
+
 @app.route('/', methods=['GET'])
 def home():
-
-	return flask.render_template('home.html')
-
-@app.route('/trending', methods=['GET'])
-def form():
-	
-	data = "sukesh,shenoy"
-	#data = {"name":"ss"}
-	#return flask.render_template('home.html', trends= webapp.trends)
-	return jsonify(data)
+	wa=content()
+	data = wa.trends
+	return flask.render_template('home.html',trends=[[i['name'],
+					('tweets - '+str(i['tweet_volume']))] for i in data])
 
 @app.route('/view', methods=['POST'])
 def view():
 	response = request.data
 	response = json.loads(response)
-	print(response['data'])
-	return jsonify(response)
+	print(response['q'])
+	wa=content()
+	wa.tweet_search(response['q'])
+	print(wa.tweets)
+	return jsonify([[i.user_name,i.full_text,i.created_at,i.retweet_count] for i in wa.tweets])
 
+@app.route('/wordcloud', methods=['POST'])
+def wordcloud():
+	response = request.data
+	response = json.loads(response)
+	print(response['q'])
+	wa=content()
+	wa.tweet_search(response['q'])
+	wa.tweet_clean()
+	print([k for j in [i.words for i in wa.clean_tweets] for k in j])
+	return jsonify([k for j in [i.words for i in wa.clean_tweets] for k in j])
 
+@app.route('/charts', methods=['POST'])
+def charts():
+	response = request.data
+	response = json.loads(response)
+	print(response['q'])
+	wa=content()
+	wa.tweet_search(response['q'])
+	wa.tweet_clean()
+	wa.sentiment_analysis()
+	negatives=[]
+	positives=[]
+	neutral=[]
+	sentiments=[]
+	for i in wa.clean_tweets:
+		sentiments.append(i.sentiment)
+		if i.sentiment=='Negative':
+			negatives.extend([w for w in i.words])
+		elif i.sentiment=='Positive':
+			positives.extend([w for w in i.words])
+		else:
+			neutral.extend([w for w in i.words])
+	out=[]
+	out.append(sentiments)
+	out.append(negatives)
+	out.append(positives)
+	out.append(neutral)
+	print(out)
+	return jsonify(out)
 
 if __name__=='__main__':
 	app.run(debug=True)
-	#self.tweet_search_clean()
-	#self.sentiment_analysis()
 	
 
