@@ -18,13 +18,13 @@ class cleaning(emojis):
         self.basic_clean_tweets.append(_)
     self.complete_cleaner()
 
-
+ #Removing URLs and smileys   
   def basic_clean(self, sentence):
     p.set_options(p.OPT.URL, p.OPT.SMILEY)
     tmp=p.clean(sentence)
     tmp=re.sub(r"via @","@",tmp)
     return(tmp) 
-
+#Seperating words for WordCloud
   def word_clean(self, sentence):
     p.set_options(p.OPT.HASHTAG,p.OPT.MENTION)
     tmp=p.clean(sentence)
@@ -33,7 +33,7 @@ class cleaning(emojis):
     for key,val in emoji_list.items():
       tmp=val.join(tmp.split(key))
     return([_.lower() for _ in (re.split(r'[`\-=~!$%^&*()_+\[\]{};\\\:"|<,./<>? ]',tmp)) if _ !=""])
-
+#Preprocessing tweets for sentiment analysis
   def sentence_clean(self, sentence):
     p.set_options(p.OPT.MENTION)
     tmp=p.clean(sentence)
@@ -42,7 +42,7 @@ class cleaning(emojis):
     for key,val in emoji_list.items():
       tmp=val.join(tmp.split(key))
     return(tmp)
-  
+#Creating class obejct with words and clean tweets   
   def complete_cleaner(self):
     for _ in self.basic_clean_tweets:
       _.words=(self.word_clean(_.clean_text))
