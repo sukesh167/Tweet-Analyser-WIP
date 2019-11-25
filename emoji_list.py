@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import re
 class emojis():
-  def __init__(self):   
+  def __init__(self):
     self.emojis_tmp={u':1st_place_medal:': u'\U0001F947',
       u':2nd_place_medal:': u'\U0001F948',
       u':3rd_place_medal:': u'\U0001F949',
@@ -2813,8 +2813,9 @@ class emojis():
       u':regional_indicator_symbol_letter_x:': u'\U0001F1FD',
       u':regional_indicator_symbol_letter_y:': u'\U0001F1FE',
       u':regional_indicator_symbol_letter_z:': u'\U0001F1FF',
+      #add new emojis with names here
     }
-
+    #dicts-{emojis:replacement}
     self.emojis_sub_word={}
     self.emojis_sub_sentence={}
     for key,val in self.emojis_tmp.items():
