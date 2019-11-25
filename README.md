@@ -14,13 +14,21 @@ packages used :-
 To run the web app the server for stanfordcorenlp has to be started
 
 1) Download and unzip StanfordCoreNLP(done in ubuntu):
+ 
  ```wget https://nlp.stanford.edu/software/stanford-corenlp-full-2018-10-05.zip https://nlp.stanford.edu/software/stanford-english-corenlp-2018-10-05-models.jar```
+ 
 ```unzip stanford-corenlp-full-2018-10-05.zip```
+
 2) Setup packages for english:
+
 ```mv stanford-english-corenlp-2018-10-05-models.jar stanford-corenlp-full-2018-10-05```
+
 3) Start the server:
+
 ```cd stanford-corenlp-full-2018-10-05```
+
 ```java -mx6g -cp "*" edu.stanford.nlp.pipeline.StanfordCoreNLPServer -timeout 5000```
+
 (change timeout for more data transfer, change -mx6g for amount of memory used by server( 2g, 4g ... )
 
 Start the web app by running web_app.py 
