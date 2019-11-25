@@ -1,4 +1,4 @@
-# Tweet-Analyser-WIP
+# Tweet-Streamer-Analyser
 
 Web app to show tweets, show WordCloud of tweets, Sentiment analysis of tweets for a given user or #tag
 
