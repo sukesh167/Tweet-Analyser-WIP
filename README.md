@@ -1,17 +1,17 @@
 # Tweet-Streamer-Analyser
 
-##Web app to show tweets, show WordCloud of tweets, Sentiment analysis of tweets for a given user or #tag
+## Web app to show tweets, show WordCloud of tweets, Sentiment analysis of tweets for a given user or #tag
 
-###The web app contains both streamer dashboard and analysis dashboad in the same page
+### The web app contains both streamer dashboard and analysis dashboad in the same page
 
-###Done using [flask](https://www.palletsprojects.com/p/flask/) as backend,
+### Done using [flask](https://www.palletsprojects.com/p/flask/) as backend,
 
-###packages used :-
+### packages used :-
 * [Tweepy](https://tweepy.readthedocs.io/en/latest/) to access twitter API
 * [tweet-preprocessor](https://pypi.org/project/tweet-preprocessor/) for cleaning the tweets
 * [pycorenlp](https://pypi.org/project/pycorenlp/) for sentiment analysis.
 
-##To run the web app the server for stanfordcorenlp has to be started
+## To run the web app the server for stanfordcorenlp has to be started
 
 1) Download and unzip StanfordCoreNLP(done in ubuntu):
  
@@ -31,12 +31,12 @@
 
 (change timeout for more data transfer, change -mx6g for amount of memory used by server( 2g, 4g ... )
 
-##Start the web app by running web_app.py 
+## Start the web app by running web_app.py 
 
-###the streamer uses jinja input and script to display the tweets 
-###whereas the analyser creates svg to display worcloud and pie chart
+### The streamer uses jinja input and script to display the tweets 
+### whereas the analyser creates svg to display worcloud and pie chart
 
-##Future works:
+## Future works:
 * Caching the searches and data for quicke display as Twitter API and StanfordCoreNLP take significant time
 * Adding more Charts of sentiment analysis such as most used words in negative, positive sentiments
 * Adding location in script so as to display the trending #tags locally for the user of webapp
