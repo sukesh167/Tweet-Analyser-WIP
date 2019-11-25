@@ -2,18 +2,16 @@
 <html lang="en">
 
   <head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://d3js.org/d3.v3.min.js"></script>
-    <script src="https://rawgit.com/jasondavies/d3-cloud/master/build/d3.layout.cloud.js"></script>
-    <link rel="stylesheet" type="text/css" href="static/main.css">
-    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>/*include jquery*/
+    <script src="https://d3js.org/d3.v3.min.js"></script> /*include d3*/ 
+    <script src="https://rawgit.com/jasondavies/d3-cloud/master/build/d3.layout.cloud.js"></script>/*include js wordcloud*/
+    <link rel="stylesheet" type="text/css" href="static/main.css">/*include css from static*/
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">/*include bootstrap for styling divs*/
     <title>twitterWebApp</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
 
- 
- 
   <body>
     <div class="col-sm-8 col-xs-12">
       <div id ="overlay">
@@ -21,7 +19,7 @@
           <img src="static/Spinner.svg" class="center" style="width:160px; height:160px;">
         </div>
       </div>
-    </div>
+    </div>/*loading screen animation*/
 
   
     <div style="height:15%">
@@ -51,6 +49,7 @@
   </body>
 
 <script>
+//function to diplay loading animation
 function overlayOn(){
   var element = document.getElementById("overlay").style.display = "block";
 }
@@ -58,7 +57,7 @@ function overlayOn(){
 function overlayOff(){
   var element = document.getElementById("overlay").style.display = "none";
 }
-
+//show globally trending #, datainput-jinja
 function appendTrending(){
   var data={{trends|tojson}}
   var main = document.getElementById("trending");
@@ -75,7 +74,7 @@ function appendTrending(){
     main.appendChild(linebreak);
   }
 }appendTrending()
-
+//show tweets 
 function appendTweets(tweets){
   var main = document.getElementById("viewer");
   for(x=0;x<tweets.length;x++){
@@ -105,7 +104,7 @@ function appendTweets(tweets){
     main.appendChild(div1);
   }
 }
-
+//create div to show tweets, forward to appendTweets on click of View button
 $("#view").click(function(){
   overlayOn();
   var query = $("#textArea").val();
@@ -117,7 +116,7 @@ $("#view").click(function(){
     overlayOff();
     var data = JSON.parse(this.response);
     if(data == "404"){
-      alert("No Data Found ! Try Different Keywords");
+      alert("No Data Found ! Try Different Keywords");//show error if no data sent by flask 
     }
     else{
       $("#viewer").remove();
@@ -137,8 +136,9 @@ $("#view").click(function(){
   request.send(search_query)
 });
        
-
+//create wordcloud svg
 function drawWordCloud(data){
+//list of common wordsm such as - is, was to be removed -derieved from python wordcloud package 
   var common = "a, about, above, after, again, against, all, also, am, an, and, any, are, aren't, as, at, be, because, been, before, being, below, between, both, but, by, can, can't, cannot, com, could, couldn't, did, didn't, do, does, doesn't, doing, don't, down, during, each, else, ever, few, for, from, further, get, had, hadn't, has, hasn't, have, haven't, having, he, he'd, he'll, he's, her, here, here's, hers, herself, him, himself, his, how, how's, however, http, i, i'd, i'll, i'm, i've, if, in, into, is, isn't, it, it's, its, itself, just, k, let's, like, me, more, most, mustn't, my, myself, no, nor, not, of, off, on, once, only, or, other, otherwise, ought, our, ours, ourselves, out, over, own, r, same, shall, shan't, she, she'd, she'll, she's, should, shouldn't, since, so, some, such, than, that, that's, the, their, theirs, them, themselves, then, there, there's, these, they, they'd, they'll, they're, they've, this, those, through, to, too, under, until, up, very, was, wasn't, we, we'd, we'll, we're, we've, were, weren't, what, what's, when, when's, where, where's, which, while, who, who's,whom, why, why's, with, won't, would, wouldn't, www, you, you'd, you'll, you're, you've, your, yours, yourself, yourselves"
   var word_count = {};
   var words = data;
@@ -194,7 +194,7 @@ function drawWordCloud(data){
   }
   d3.layout.cloud().stop();
 }
-  
+//div to display wordcloud, forward to drawWordCloud on click of wordcloud button
 $("#wordcloud").click(function(){
   overlayOn();
   var query = $("#textArea").val();
@@ -222,7 +222,7 @@ $("#wordcloud").click(function(){
   }
   request.send(search_query)
 });
- 
+//create pie chart to show sentiment distribution more charts can be included in future works 
 function appendChart(sents){
   var svg = d3.select("#senti")
 	      .append("svg")
@@ -343,7 +343,7 @@ function appendChart(sents){
             .remove();
   };
 }
-
+//create div to display pie chart on click oif chart button
 $("#charts").click(function(){
   overlayOn();
   var query = $("#textArea").val();
