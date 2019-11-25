@@ -13,7 +13,7 @@ class cleaning(emojis):
     self.basic_clean_tweets=[]
     for _ in self.tweets:
       tmp=self.basic_clean(_.full_text)
-      if tmp [0:2] != 'RT':
+      if tmp [0:2] != 'RT':#remove retweets for better wordcloud and sentiment analysis
         _.clean_text=tmp
         self.basic_clean_tweets.append(_)
     self.complete_cleaner()
